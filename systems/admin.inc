@@ -4,15 +4,15 @@ COMMAND:noooc(playerid,params[])
 	if (PlayerInfo[playerid][pAdmin] >= 1 && !noooc)
 	{
 		noooc = 1;
-		SendClientMessageToAll(COLOR_GRAD2, "   OOC чат отключен администратором!");
+		SendClientMessageToAll(COLOR_GRAD2, "OOC Chat is disabled.");
 	}
 	else if (PlayerInfo[playerid][pAdmin] >= 1 && noooc)
 	{
 		noooc = 0;
-		SendClientMessageToAll(COLOR_GRAD2, "   OOC чат включен администратором!");
+		SendClientMessageToAll(COLOR_GRAD2, "Feel free to shoot a message in /ooc !");
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 
@@ -20,7 +20,7 @@ COMMAND:makeadmin(playerid,params[])
 {
 	new para1,level,sendername[MAX_PLAYER_NAME],giveplayer[MAX_PLAYER_NAME],string[255];
 	if(sscanf(params, "ui", para1,level))
-		return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /makeadmin [id_игрока/ЧастьИмени] [уровень(1-1339)]");
+		return SendClientMessage(playerid, COLOR_GRAD2, "EXAMPLE: /makeadmin [ID/Name] [Level(1-1339)]");
 	if (PlayerInfo[playerid][pAdmin] >= 1337)
 	{
 	    if(IsPlayerConnected(para1))
@@ -30,16 +30,16 @@ COMMAND:makeadmin(playerid,params[])
 				GetPlayerName(para1, giveplayer, sizeof(giveplayer));
 				GetPlayerName(playerid, sendername, sizeof(sendername));
 				PlayerInfo[para1][pAdmin] = level;
-				printf("AdmCmd: %s сделал %s админом уровня %d.", sendername, giveplayer, level);
-				format(string, sizeof(string), "   Админом уровня %d сделал Вас %s", level, sendername);
+				printf("AdmCmd: %s made %s admin level %d.", sendername, giveplayer, level);
+				format(string, sizeof(string), "   Admin level %d gave by %s", level, sendername);
 				SendClientMessage(para1, COLOR_LIGHTBLUE, string);
-				format(string, sizeof(string), "   Вы сделали %s админом уровня %d.", giveplayer,level);
+				format(string, sizeof(string), "   Player %s received admin level %d.", giveplayer,level);
 				SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
 			}
 		}
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 
@@ -47,7 +47,7 @@ COMMAND:makehelper(playerid,params[])
 {
 	new para1,level,sendername[MAX_PLAYER_NAME],giveplayer[MAX_PLAYER_NAME],string[255];
 	if(sscanf(params, "ui", para1,level))
-		return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /makehelper [id_игрока/ЧастьИмени] [уровень]");
+		return SendClientMessage(playerid, COLOR_GRAD2, "EXAMPLE: /makehelper [ID/Name] [Level]");
 	if (PlayerInfo[playerid][pAdmin] >= 1337 || PlayerInfo[playerid][pHelper] >= 1339)
 	{
 	    if(IsPlayerConnected(para1))
@@ -57,18 +57,18 @@ COMMAND:makehelper(playerid,params[])
 				GetPlayerName(para1, giveplayer, sizeof(giveplayer));
 				GetPlayerName(playerid, sendername, sizeof(sendername));
 				PlayerInfo[para1][pHelper] = level;
-				printf("AdmCmd: %s сделал %s хелпером уровня %d.", sendername, giveplayer, level);
-				format(string, sizeof(string), "   Хелпером уровня %d сделал Вас %s", level, sendername);
+				printf("AdmCmd: %s granted %s Helper level %d.", sendername, giveplayer, level);
+				format(string, sizeof(string), "Helper level %d granted by %s", level, sendername);
 				SendClientMessage(para1, COLOR_LIGHTBLUE, string);
-				format(string, sizeof(string), "   Вы сделали %s хелпером уровня %d.", giveplayer,level);
+				format(string, sizeof(string), "Granted %s Helper level %d.", giveplayer,level);
 				SendClientMessage(playerid, COLOR_LIGHTBLUE, string);
-				format(string, sizeof(string), "   %s сделал %s хелпером уровня %d!", sendername, giveplayer, level);
+				format(string, sizeof(string), "%s granted %s Helper level %d!", sendername, giveplayer, level);
 				ABroadCast(COLOR_LIGHTRED, string, 1);
 			}
 		}
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 
@@ -76,7 +76,7 @@ COMMAND:mute(playerid,params[])
 {
 	new playa,money,result[128],string[255],giveplayer[MAX_PLAYER_NAME],sendername[MAX_PLAYER_NAME];
 	if(sscanf(params, "uis[64]", playa,money,result))
-		return SendClientMessage(playerid, COLOR_GRAD2, "ИСПОЛЬЗУЙТЕ: /mute [id_игрока/ЧастьИмени] [время(минуты)] [причина]");
+		return SendClientMessage(playerid, COLOR_GRAD2, "EXANPLE: /mute [ID/Name] [Fine] [Reason ?]");
 	if(IsPlayerNPC(playa))return 1;
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
@@ -86,23 +86,23 @@ COMMAND:mute(playerid,params[])
 	        {
 		        GetPlayerName(playa, giveplayer, sizeof(giveplayer));
 				GetPlayerName(playerid, sendername, sizeof(sendername));
-				format(string, sizeof(string), "* Вас заглушил администратор %s на %d минут, причина: %s", sendername, money, (result));
+				format(string, sizeof(string), "* Has been muted %s and paid %d , Reason?: %s", sendername, money, (result));
 				SendClientMessage(playa, COLOR_LIGHTRED, string);
 				PlayerInfo[playa][pMutedTime] = money*60;
-				format(string, sizeof(string), "AdmCmd: %s был заглушен администратором %s на %d минут, причина: %s",giveplayer ,sendername, money, (result));
+				format(string, sizeof(string), "AdmCmd: %s has muted %s Fine: %d Reason?: %s",giveplayer ,sendername, money, (result));
 				SendClientMessageToAll(COLOR_LIGHTRED, string);
 			}
 		}
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:jail(playerid,params[])
 {
 	new playa,money,result[128];
 	if(sscanf(params, "uis[64]", playa,money,result))
-		return SendClientMessage(playerid, COLOR_GRAD2, "ИСПОЛЬЗУЙТЕ: /jail [id_игрока/ЧастьИмени] [time(minutes)] [reason/причина]");
+		return SendClientMessage(playerid, COLOR_GRAD2, "EXAMPLE: /jail [ID/Name] [time(minutes)] [reason]");
 	if(IsPlayerNPC(playa))return 1;
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
@@ -113,22 +113,22 @@ COMMAND:jail(playerid,params[])
 	            new giveplayer[MAX_PLAYER_NAME],sendername[MAX_PLAYER_NAME],string[255];
 		        GetPlayerName(playa, giveplayer, sizeof(giveplayer));
 				GetPlayerName(playerid, sendername, sizeof(sendername));
-				format(string, sizeof(string), "* Вас заключил в тюрьму администратор %s, причина: %s", sendername, (result));
+				format(string, sizeof(string), "* Has been admin jailed %s, Reason: %s", sendername, (result));
 				SendClientMessage(playa, COLOR_LIGHTRED, string);
 				ResetPlayerWeapons(playa);
 				SetPlayerVirtualWorld(playa,playa);
 				PlayerInfo[playa][pJailTime] = money*60;
 				SetPlayerInterior(playa, 1);
 				SetPlayerPos(playa, 2216.5884,-1071.6406,1050.4844);
-				format(string, sizeof(string), "AdmCmd: %s был заключён в тюрьму администратором %s на %d минут, причина: %s ",giveplayer ,sendername, money, (result));
+				format(string, sizeof(string), "AdmCmd: %s has admin jailed %s Fine: %d Reason: %s ",giveplayer ,sendername, money, (result));
 				SendClientMessageToAll(COLOR_LIGHTRED, string);
-				format(string, sizeof(string), "*Вы заключены в тюрьму на %d минут.", money);
+				format(string, sizeof(string), "*You've been fined $%d", money);
 				SendClientMessage(playa, COLOR_LIGHTBLUE, string);
 			}
 		}
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "   Г“ Г‚Г Г± Г­ГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® ГЇГ°Г Гў Г¤Г«Гї ГІГ®ГЈГ®, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГЅГІГі ГЄГ®Г¬Г Г­Г¤Гі!");
 	return 1;
 }
 
@@ -142,7 +142,7 @@ COMMAND:dn(playerid,params[])
 		return 1;
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы не Администратор!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:up(playerid,params[])
@@ -155,7 +155,7 @@ COMMAND:up(playerid,params[])
 		return 1;
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы не Администратор!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:upp(playerid,params[])
@@ -168,23 +168,25 @@ COMMAND:upp(playerid,params[])
 		return 1;
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы не Администратор!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:uppfly(playerid,params[])
 {
     new playa;
 	if(sscanf(params, "u", playa))
-		return SendClientMessage(playerid, COLOR_GRAD1, " ИСПОЛЬЗУЙТЕ: /uppfly [id игрока/ЧастьИмени]");
+		return SendClientMessage(playerid, COLOR_GRAD1, " Г€Г‘ГЏГЋГ‹ГњГ‡Г“Г‰Г’Г…: /uppfly [id ГЁГЈГ°Г®ГЄГ /Г—Г Г±ГІГјГ€Г¬ГҐГ­ГЁ]");
 	if (PlayerInfo[playerid][pAdmin] >= 4)
 	{
 		new Float:slx, Float:sly, Float:slz;
 		GetPlayerPos(playa, slx, sly, slz);
 		SetPlayerPos(playa, slx, sly, slz+1500);
-		SendClientMessage(playa, COLOR_GREY, " Пошел! Пошел! Пошел!");
+		SendClientMessage(playa, COLOR_GREY, "More! ГЏГ®ГёГҐГ«! ГЏГ®ГёГҐГ«!");
         new name[MAX_PLAYER_NAME];
 		GetPlayerName(playa,name,sizeof(name));
 	}
+	else
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 
@@ -200,7 +202,7 @@ COMMAND:fly(playerid,params[])
 		SetPlayerPos(playerid,Float:b_x, Float:b_y, Float:b_z+5.0);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы не Администратор!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:lt(playerid,params[])
@@ -212,7 +214,7 @@ COMMAND:lt(playerid,params[])
 		SetPlayerPos(playerid, slx-2, sly, slz);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы не Администратор!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:rt(playerid,params[])
@@ -224,7 +226,7 @@ COMMAND:rt(playerid,params[])
 		SetPlayerPos(playerid, slx+2, sly, slz);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы не Администратор!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:ft(playerid,params[])
@@ -236,7 +238,7 @@ COMMAND:ft(playerid,params[])
 		SetPlayerPos(playerid, slx, sly+2, slz);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы не Администратор!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:bk(playerid,params[])
@@ -248,7 +250,7 @@ COMMAND:bk(playerid,params[])
 		SetPlayerPos(playerid, slx, sly-2, slz);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы не Администратор!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 
@@ -260,7 +262,7 @@ COMMAND:endround(playerid,params[])
 	if (PlayerInfo[playerid][pAdmin] >= 1337)
 		GameModeExit();
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 
@@ -268,7 +270,7 @@ COMMAND:gotocar(playerid,params[])
 {
 	new testcar;
 	if(sscanf(params, "i", testcar))
-		return SendClientMessage(playerid, COLOR_GRAD1, " ИСПОЛЬЗОВАНИЕ: /gotocar [id]");
+		return SendClientMessage(playerid, COLOR_GRAD1, " Г€Г‘ГЏГЋГ‹ГњГ‡ГЋГ‚ГЂГЌГ€Г…: /gotocar [id]");
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
 		new Float:cwx2,Float:cwy2,Float:cwz2;
@@ -280,11 +282,11 @@ COMMAND:gotocar(playerid,params[])
 		}
 		else
 			SetPlayerPos(playerid, cwx2+2, cwy2+2, cwz2);
-		SendClientMessage(playerid, COLOR_GRAD1, "   Вы телепортированы к указанной машине!");
+		SendClientMessage(playerid, COLOR_GRAD1, "Ayhhh Yaeh!(1) Г‚Г» ГІГҐГ«ГҐГЇГ®Г°ГІГЁГ°Г®ГўГ Г­Г» ГЄ ГіГЄГ Г§Г Г­Г­Г®Г© Г¬Г ГёГЁГ­ГҐ!");
 		SetPlayerInterior(playerid,0);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:getcar(playerid,params[])
@@ -292,28 +294,28 @@ COMMAND:getcar(playerid,params[])
 	new Float:plocx,Float:plocy,Float:plocz;
 	new plo;
 	if(sscanf(params, "i", plo))
-		return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /getcar [id машины]");
+		return SendClientMessage(playerid, COLOR_GRAD2, "EXAMPLE: /getcar [vehicle id]");
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
 		GetPlayerPos(playerid, plocx, plocy, plocz);
 		SetVehiclePos(plo,plocx,plocy+4, plocz);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:entercar(playerid,params[])
 {
     new testcar,testcarpos=1,testcarpl=playerid;
 	if(sscanf(params, "iii", testcar,testcarpos,testcarpl))
-		return SendClientMessage(playerid, COLOR_GRAD1, " ИСПОЛЬЗОВАНИЕ: /entercar [id машины] [сиденье] [игрок]");
+		return SendClientMessage(playerid, COLOR_GRAD1, "EXAMPLE: /entercar [vehicle id] [Г±ГЁГ¤ГҐГ­ГјГҐ] [ГЁГЈГ°Г®ГЄ]");
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
 		PutPlayerInVehicle(testcarpl, testcar, testcarpos);
-		SendClientMessage(testcarpl, COLOR_GRAD1, "   Вы телепортированы в указанную машину!");
+		SendClientMessage(testcarpl, COLOR_GRAD1, "   Г‚Г» ГІГҐГ«ГҐГЇГ®Г°ГІГЁГ°Г®ГўГ Г­Г» Гў ГіГЄГ Г§Г Г­Г­ГіГѕ Г¬Г ГёГЁГ­Гі!");
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 
@@ -327,11 +329,11 @@ COMMAND:mark(playerid,params[])
 	    if(i>9)return 1;
 		GetPlayerPos(playerid, TeleportDest[playerid][0][i],TeleportDest[playerid][1][i],TeleportDest[playerid][2][i]);
 		new str[255];
-		format(str,sizeof(str),"Пункт назначения телепорта [%d] установлен.",i);
+		format(str,sizeof(str),"Teleported to coordinates [%d].",i);
 		SendClientMessage(playerid, COLOR_GRAD1, str);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:gotomark(playerid,params[])
@@ -350,11 +352,11 @@ COMMAND:gotomark(playerid,params[])
 			SetPlayerPos(playerid, TeleportDest[playerid][0][i],TeleportDest[playerid][1][i],TeleportDest[playerid][2][i]);
         new str[255];
         SetPlayerInterior(playerid,0);
-		format(str,sizeof(str),"Вы телепортированы к назначенному телепорту [%d].",i);
+		format(str,sizeof(str),"Teleported to mark [%d].",i);
 		SendClientMessage(playerid, COLOR_GRAD1, str);
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "You're not allowed to use that command!");
 	return 1;
 }
 COMMAND:goto(playerid,params[])
@@ -363,7 +365,7 @@ COMMAND:goto(playerid,params[])
 	new plo;
 	new string[128];
 	if(sscanf(params, "u", plo))
-		return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /goto [id_игрока/ЧастьИмени]");
+		return SendClientMessage(playerid, COLOR_GRAD2, "EXAMPLE: /goto [ID/Name]");
 	if (IsPlayerConnected(plo))
 	{
 	    if(plo != INVALID_PLAYER_ID)
@@ -380,16 +382,16 @@ COMMAND:goto(playerid,params[])
 				}
 				else
 					SetPlayerPos(playerid,plocx,plocy+2, plocz);
-				format(string,sizeof(string),"   Вы телепортированы к указанному игроку (%d)!", plo);
+				format(string,sizeof(string),"Teleported to ID (%d)!", plo);
 				SendClientMessage(playerid, COLOR_GRAD1, string);
 			}
 			else
-				SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+				SendClientMessage(playerid, COLOR_GRAD1, "Not able?!(2)!");
 		}
 	}
 	else
 	{
-		format(string, sizeof(string), "   %d - нет такого игрока.", plo);
+		format(string, sizeof(string), "   %d - Boom?(3).", plo);
 		SendClientMessage(playerid, COLOR_GRAD1, string);
 	}
 	return 1;
@@ -405,7 +407,7 @@ COMMAND:gethere(playerid,params[])
 	new plo;
 	new string[128];
 	if(sscanf(params, "u", plo))
-		return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /gethere [id_игрока/ЧастьИмени]");
+		return SendClientMessage(playerid, COLOR_GRAD2, "EXANPLE: /gethere [ID/Name]");
 	if (IsPlayerConnected(plo))
 	{
 	    if(plo != INVALID_PLAYER_ID)
@@ -435,15 +437,15 @@ COMMAND:gethere(playerid,params[])
 					SetPlayerVirtualWorld(plo,world);
 					SetPlayerPos(plo,plocx,plocy+1.5, plocz);
 				}
-				SendClientMessage(plo, COLOR_GRAD1, "   Вас телепортировали!");
+				SendClientMessage(plo, COLOR_GRAD1, "Teleported player!");
 			}
 			else
-				SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+				SendClientMessage(playerid, COLOR_GRAD1, " Can't teleport?!(4)");
 		}
 	}
 	else
 	{
-		format(string, sizeof(string), "   %d - нет такого игрока.", plo);
+		format(string, sizeof(string), "   %d - Moms.(5)", plo);
 		SendClientMessage(playerid, COLOR_GRAD1, string);
 	}
 	return 1;
@@ -454,7 +456,7 @@ COMMAND:backhere(playerid,params[])
 	{
 	    new plo,string[255];
 		if(sscanf(params, "u", plo))
-			return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /backhere [id_игрока/ЧастьИмени]");
+			return SendClientMessage(playerid, COLOR_GRAD2, " Г€Г‘ГЏГЋГ‹ГњГ‡ГЋГ‚ГЂГЌГ€Г…: /backhere [id_ГЁГЈГ°Г®ГЄГ /Г—Г Г±ГІГјГ€Г¬ГҐГ­ГЁ]");
 		if (IsPlayerConnected(plo))
 		{
 	    	if(plo != INVALID_PLAYER_ID)
@@ -464,27 +466,27 @@ COMMAND:backhere(playerid,params[])
 		    	    SetPlayerPos(plo, BackTelePosX[plo],BackTelePosY[plo],BackTelePosZ[plo]);
 				    GetPlayerInterior(BackTeleInt[plo]);
 		   		 	GetPlayerVirtualWorld(BackTeleWorld[plo]);
-		   		 	SendClientMessage(plo, COLOR_GRAD1, " Вас телепортировали обратно!");
-		   		 	SendClientMessage(playerid, COLOR_GRAD1, " Вы вернули игрока на место первоначальной телепортации!");
+		   		 	SendClientMessage(plo, COLOR_GRAD1, " Г‚Г Г± ГІГҐГ«ГҐГЇГ®Г°ГІГЁГ°Г®ГўГ Г«ГЁ Г®ГЎГ°Г ГІГ­Г®!");
+		   		 	SendClientMessage(playerid, COLOR_GRAD1, " Г‚Г» ГўГҐГ°Г­ГіГ«ГЁ ГЁГЈГ°Г®ГЄГ  Г­Г  Г¬ГҐГ±ГІГ® ГЇГҐГ°ГўГ®Г­Г Г·Г Г«ГјГ­Г®Г© ГІГҐГ«ГҐГЇГ®Г°ГІГ Г¶ГЁГЁ!");
 		   		 	BackTelePosZ[plo]=0.0;
 	   		 	}
 	   		 	else
-	   		 		SendClientMessage(playerid, COLOR_GRAD1, " Этого игрока еще не телепортировали!");
+	   		 		SendClientMessage(playerid, COLOR_GRAD1, " ГќГІГ®ГЈГ® ГЁГЈГ°Г®ГЄГ  ГҐГ№ГҐ Г­ГҐ ГІГҐГ«ГҐГЇГ®Г°ГІГЁГ°Г®ГўГ Г«ГЁ!");
 	    	}
 	    	else
 			{
-				format(string, sizeof(string), "   %d - нет такого игрока.", plo);
+				format(string, sizeof(string), "   %d - Г­ГҐГІ ГІГ ГЄГ®ГЈГ® ГЁГЈГ°Г®ГЄГ .", plo);
 				SendClientMessage(playerid, COLOR_GRAD1, string);
 			}
 	    }
 	    else
 		{
-			format(string, sizeof(string), "   %d - нет такого игрока.", plo);
+			format(string, sizeof(string), "   %d - Г­ГҐГІ ГІГ ГЄГ®ГЈГ® ГЁГЈГ°Г®ГЄГ .", plo);
 			SendClientMessage(playerid, COLOR_GRAD1, string);
 		}
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "   Г“ Г‚Г Г± Г­ГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® ГЇГ°Г Гў Г¤Г«Гї ГІГ®ГЈГ®, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГЅГІГі ГЄГ®Г¬Г Г­Г¤Гі!");
 	return 1;
 }
 
@@ -510,24 +512,24 @@ COMMAND:tpto(playerid,params[])
 				SetPlayerVirtualWorld(giveplayerid,world);
 				SetPlayerPos(giveplayerid, pX,pY,pZ);
 				PlayerInfo[giveplayerid][pLocal] = PlayerInfo[teleid][pLocal];
-				format(string, sizeof(string), " * Вы телепортировали %s'а (id: %d) к %s'у (id: %d).", giveplayer,giveplayerid,telename,teleid);
+				format(string, sizeof(string), " * Г‚Г» ГІГҐГ«ГҐГЇГ®Г°ГІГЁГ°Г®ГўГ Г«ГЁ %s'Г  (id: %d) ГЄ %s'Гі (id: %d).", giveplayer,giveplayerid,telename,teleid);
 				SendClientMessage(playerid, COLOR_YELLOW, string);
-				format(string, sizeof(string), " * Вы были телепортированы к %s'у (id: %d) %s'ом (id: %d).", telename,teleid,sendername,playerid);
+				format(string, sizeof(string), " * Г‚Г» ГЎГ»Г«ГЁ ГІГҐГ«ГҐГЇГ®Г°ГІГЁГ°Г®ГўГ Г­Г» ГЄ %s'Гі (id: %d) %s'Г®Г¬ (id: %d).", telename,teleid,sendername,playerid);
 				SendClientMessage(giveplayerid, COLOR_YELLOW, string);
 			}
 			if (!IsPlayerConnected(giveplayerid))
 			{
-				format(string, sizeof(string), " * %d - неверный id игрока. (Игрок отсутствует на сервере)", giveplayerid);
+				format(string, sizeof(string), " * %d - Г­ГҐГўГҐГ°Г­Г»Г© id ГЁГЈГ°Г®ГЄГ . (Г€ГЈГ°Г®ГЄ Г®ГІГ±ГіГІГ±ГІГўГіГҐГІ Г­Г  Г±ГҐГ°ГўГҐГ°ГҐ)", giveplayerid);
 				SendClientMessage(playerid, COLOR_YELLOW, string);
 			}
 			if (!IsPlayerConnected(teleid))
 			{
-				format(string, sizeof(string), " * %d - неверный id игрока. (Игрок отсутствует на сервере)", teleid);
+				format(string, sizeof(string), " * %d - Г­ГҐГўГҐГ°Г­Г»Г© id ГЁГЈГ°Г®ГЄГ . (Г€ГЈГ°Г®ГЄ Г®ГІГ±ГіГІГ±ГІГўГіГҐГІ Г­Г  Г±ГҐГ°ГўГҐГ°ГҐ)", teleid);
 				SendClientMessage(playerid, COLOR_YELLOW, string);
 			}
 		}
 		else
-		    SendClientMessage(playerid, COLOR_WHITE, " * Используйте: /tpto [id игрока] [к id игрока]");
+		    SendClientMessage(playerid, COLOR_WHITE, " * Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: /tpto [id ГЁГЈГ°Г®ГЄГ ] [ГЄ id ГЁГЈГ°Г®ГЄГ ]");
 	}
 	return 1;
 }
@@ -537,7 +539,7 @@ COMMAND:check(playerid,params[])
 	if(!PlayerInfo[playerid][pAdmin])return 1;
 	new giveplayerid;
 	if(sscanf(params,"u",giveplayerid))
-	    return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗУЙТЕ: /check [id/имя игрока]");
+	    return SendClientMessage(playerid, COLOR_GRAD2, " Г€Г‘ГЏГЋГ‹ГњГ‡Г“Г‰Г’Г…: /check [id/ГЁГ¬Гї ГЁГЈГ°Г®ГЄГ ]");
 	ShowStats(giveplayerid,playerid);
 	return 1;
 }
@@ -547,7 +549,7 @@ COMMAND:kick(playerid,params[])
 	gettime(hour,minuite,second);
 	new giveplayerid,result[128],sendername[MAX_PLAYER_NAME],giveplayer[MAX_PLAYER_NAME],string[255];
 	if(sscanf(params, "us[64]", giveplayerid,result))
-		return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /kick [id_игрока/ЧастьИмени] [причина]");
+		return SendClientMessage(playerid, COLOR_GRAD2, " Г€Г‘ГЏГЋГ‹ГњГ‡ГЋГ‚ГЂГЌГ€Г…: /kick [id_ГЁГЈГ°Г®ГЄГ /Г—Г Г±ГІГјГ€Г¬ГҐГ­ГЁ] [ГЇГ°ГЁГ·ГЁГ­Г ]");
 	if(IsPlayerNPC(giveplayerid))return 1;
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
@@ -560,16 +562,16 @@ COMMAND:kick(playerid,params[])
 				new kickstring[64];
 				new year, month,day;
 				getdate(year, month, day);
-				format(string, sizeof(string), "AdmCmd: %s был кикнут администратором %s, причина: %s", giveplayer, sendername, (result));
+				format(string, sizeof(string), "AdmCmd: %s ГЎГ»Г« ГЄГЁГЄГ­ГіГІ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г®Г¬ %s, ГЇГ°ГЁГ·ГЁГ­Г : %s", giveplayer, sendername, (result));
 				SendClientMessageToAll(COLOR_LIGHTRED, string);
 				print(string);
-				format(kickstring, sizeof(kickstring), "** Вас кикнул: %s **", sendername);
+				format(kickstring, sizeof(kickstring), "** Г‚Г Г± ГЄГЁГЄГ­ГіГ«: %s **", sendername);
 				SendClientMessage(giveplayerid, COLOR_LIGHTRED, kickstring);
-				format(kickstring, sizeof(kickstring), "** Причина: %s **",(result));
+				format(kickstring, sizeof(kickstring), "** ГЏГ°ГЁГ·ГЁГ­Г : %s **",(result));
 				SendClientMessage(giveplayerid, COLOR_LIGHTRED, kickstring);
-				format(kickstring, sizeof(kickstring), "** Время: %02d:%02d:%02d **",hour,minuite,second);
+				format(kickstring, sizeof(kickstring), "** Г‚Г°ГҐГ¬Гї: %02d:%02d:%02d **",hour,minuite,second);
 				SendClientMessage(giveplayerid, COLOR_LIGHTRED, kickstring);
-				format(kickstring, sizeof(kickstring), "** Дата: %d/%d/%d **",day,month,year);
+				format(kickstring, sizeof(kickstring), "** Г„Г ГІГ : %d/%d/%d **",day,month,year);
 				SendClientMessage(giveplayerid, COLOR_LIGHTRED, kickstring);
 				Kick(giveplayerid);
 				return 1;
@@ -577,7 +579,7 @@ COMMAND:kick(playerid,params[])
 		}
 		else
 		{
-			format(string, sizeof(string), "   %d - нет такого игрока.", giveplayerid);
+			format(string, sizeof(string), "   %d - Г­ГҐГІ ГІГ ГЄГ®ГЈГ® ГЁГЈГ°Г®ГЄГ .", giveplayerid);
 			SendClientMessage(playerid, COLOR_GRAD1, string);
 		}
 	}
@@ -589,7 +591,7 @@ COMMAND:ban(playerid,params[])
 	gettime(hour,minuite,second);
 	new giveplayerid,result[128],sendername[MAX_PLAYER_NAME],giveplayer[MAX_PLAYER_NAME],string[255];
 	if(sscanf(params, "us[64]", giveplayerid,result))
-		return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /ban [id_игрока/ЧастьИмени] [причина]");
+		return SendClientMessage(playerid, COLOR_GRAD2, " Г€Г‘ГЏГЋГ‹ГњГ‡ГЋГ‚ГЂГЌГ€Г…: /ban [id_ГЁГЈГ°Г®ГЄГ /Г—Г Г±ГІГјГ€Г¬ГҐГ­ГЁ] [ГЇГ°ГЁГ·ГЁГ­Г ]");
 	if(IsPlayerNPC(giveplayerid))return 1;
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
@@ -602,16 +604,16 @@ COMMAND:ban(playerid,params[])
 				new kickstring[64];
 				new year, month,day;
 				getdate(year, month, day);
-				format(string, sizeof(string), "AdmCmd: %s был забанен администратором %s, причина: %s", giveplayer, sendername, (result));
+				format(string, sizeof(string), "AdmCmd: %s ГЎГ»Г« Г§Г ГЎГ Г­ГҐГ­ Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г®Г¬ %s, ГЇГ°ГЁГ·ГЁГ­Г : %s", giveplayer, sendername, (result));
 				SendClientMessageToAll(COLOR_LIGHTRED, string);
 				print(string);
-				format(kickstring, sizeof(kickstring), "** Вас забанил: %s **", sendername);
+				format(kickstring, sizeof(kickstring), "** Г‚Г Г± Г§Г ГЎГ Г­ГЁГ«: %s **", sendername);
 				SendClientMessage(giveplayerid, COLOR_LIGHTRED, kickstring);
-				format(kickstring, sizeof(kickstring), "** Причина: %s **",(result));
+				format(kickstring, sizeof(kickstring), "** ГЏГ°ГЁГ·ГЁГ­Г : %s **",(result));
 				SendClientMessage(giveplayerid, COLOR_LIGHTRED, kickstring);
-				format(kickstring, sizeof(kickstring), "** Время: %02d:%02d:%02d **",hour,minuite,second);
+				format(kickstring, sizeof(kickstring), "** Г‚Г°ГҐГ¬Гї: %02d:%02d:%02d **",hour,minuite,second);
 				SendClientMessage(giveplayerid, COLOR_LIGHTRED, kickstring);
-				format(kickstring, sizeof(kickstring), "** Дата: %d/%d/%d **",day,month,year);
+				format(kickstring, sizeof(kickstring), "** Г„Г ГІГ : %d/%d/%d **",day,month,year);
 				SendClientMessage(giveplayerid, COLOR_LIGHTRED, kickstring);
 				PlayerInfo[giveplayerid][pBan]=1;
 				Kick(giveplayerid);
@@ -620,7 +622,7 @@ COMMAND:ban(playerid,params[])
 		}
 		else
 		{
-			format(string, sizeof(string), "   %d - нет такого игрока.", giveplayerid);
+			format(string, sizeof(string), "   %d - Г­ГҐГІ ГІГ ГЄГ®ГЈГ® ГЁГЈГ°Г®ГЄГ .", giveplayerid);
 			SendClientMessage(playerid, COLOR_GRAD1, string);
 		}
 	}
@@ -633,79 +635,79 @@ COMMAND:setstat(playerid,params[])
 	new giveplayerid,type,i,str[255];
 	if(sscanf(params,"uii",giveplayerid,type,i))
 	{
-	    SendClientMessage(playerid, COLOR_GRAD2, "0 деньги 1 очки 2 телефон 3 пол 4 модель машины 5 цвет1 6 цвет2 7 пробег 8 туториал 9 тракстоп 10 голод 11 усталость 12 скин");
-	    return SendClientMessage(playerid, COLOR_GRAD2, " ИСПОЛЬЗОВАНИЕ: /setstat [id_игрока/ЧастьИмени] [ключ] [значение]");
+	    SendClientMessage(playerid, COLOR_GRAD2, "0 Г¤ГҐГ­ГјГЈГЁ 1 Г®Г·ГЄГЁ 2 ГІГҐГ«ГҐГґГ®Г­ 3 ГЇГ®Г« 4 Г¬Г®Г¤ГҐГ«Гј Г¬Г ГёГЁГ­Г» 5 Г¶ГўГҐГІ1 6 Г¶ГўГҐГІ2 7 ГЇГ°Г®ГЎГҐГЈ 8 ГІГіГІГ®Г°ГЁГ Г« 9 ГІГ°Г ГЄГ±ГІГ®ГЇ 10 ГЈГ®Г«Г®Г¤ 11 ГіГ±ГІГ Г«Г®Г±ГІГј 12 Г±ГЄГЁГ­");
+	    return SendClientMessage(playerid, COLOR_GRAD2, " Г€Г‘ГЏГЋГ‹ГњГ‡ГЋГ‚ГЂГЌГ€Г…: /setstat [id_ГЁГЈГ°Г®ГЄГ /Г—Г Г±ГІГјГ€Г¬ГҐГ­ГЁ] [ГЄГ«ГѕГ·] [Г§Г­Г Г·ГҐГ­ГЁГҐ]");
 	}
 	switch(type)
 	{
 	    case 0:
 	    {
-	        str="Деньги";
+	        str="Г„ГҐГ­ГјГЈГЁ";
 			PlayerInfo[giveplayerid][pMoney]=i;
 		}
 		case 1:
 		{
-		    str="Очки";
+		    str="ГЋГ·ГЄГЁ";
 			PlayerInfo[giveplayerid][pPoints]=i;
 		}
 		case 2:
 		{
-		    str="Телефон";
+		    str="Г’ГҐГ«ГҐГґГ®Г­";
 			PlayerInfo[giveplayerid][pPhone]=i;
 		}
 		case 3:
 		{
-		    str="Пол";
+		    str="ГЏГ®Г«";
 			PlayerInfo[giveplayerid][pSex]=i;
 		}
 		case 4:
 		{
-		    str="Модель машины";
+		    str="ГЊГ®Г¤ГҐГ«Гј Г¬Г ГёГЁГ­Г»";
 			PlayerInfo[giveplayerid][pCarModel]=i;
 		}
 		case 5:
 		{
-		    str="Цвет 1";
+		    str="Г–ГўГҐГІ 1";
 			PlayerInfo[giveplayerid][pCarColor1]=i;
 		}
 		case 6:
 		{
-		    str="Цвет 2";
+		    str="Г–ГўГҐГІ 2";
 			PlayerInfo[giveplayerid][pCarColor2]=i;
 		}
 		case 7:
 		{
-		    str="Пробег";
+		    str="ГЏГ°Г®ГЎГҐГЈ";
 			PlayerInfo[giveplayerid][pCarMileage]=i*10000;
 		}
 		case 8:
 		{
-		    str="Туториал";
+		    str="Г’ГіГІГ®Г°ГЁГ Г«";
 			PlayerInfo[giveplayerid][pTutorial]=i;
 		}
 		case 9:
 		{
-		    str="Тракстоп";
+		    str="Г’Г°Г ГЄГ±ГІГ®ГЇ";
 			PlayerInfo[giveplayerid][pTruckStop]=i;
 		}
 		case 10:
 		{
-		    str="Голод";
+		    str="ГѓГ®Г«Г®Г¤";
 			PlayerInfo[giveplayerid][pHunger]=i;
 		}
 		case 11:
 		{
-		    str="Усталость";
+		    str="Г“Г±ГІГ Г«Г®Г±ГІГј";
 			PlayerInfo[giveplayerid][pFatigue]=i;
 		}
 		case 12:
 		{
-		    str="Скин";
+		    str="Г‘ГЄГЁГ­";
 			PlayerInfo[giveplayerid][pModel]=i;
 			SetPlayerSkin(playerid,PlayerInfo[playerid][pModel]);
 		}
 	}
-	format(str,sizeof(str),"Вы изменили параметр [%s] на [%d]",str,i);
+	format(str,sizeof(str),"Г‚Г» ГЁГ§Г¬ГҐГ­ГЁГ«ГЁ ГЇГ Г°Г Г¬ГҐГІГ° [%s] Г­Г  [%d]",str,i);
 	SendClientMessage(playerid, COLOR_GRAD2,str);
 	return 1;
 }
@@ -725,7 +727,7 @@ stock Spec(playerid,targetid,bit)
 {
 	switch(bit)
 	{
-	    case 0://стартспек
+	    case 0://Г±ГІГ Г°ГІГ±ГЇГҐГЄ
 	    {
 	        SpecInfo[playerid][InSpec]=1;
 	        GetPlayerPos(playerid,SpecInfo[playerid][specx],SpecInfo[playerid][specy],SpecInfo[playerid][specz]);
@@ -733,7 +735,7 @@ stock Spec(playerid,targetid,bit)
 	        Spec(playerid,targetid,1);
 	        TextDrawShowForPlayer(playerid,ChangeText);
 	    }
-		case 1://плеерспек
+		case 1://ГЇГ«ГҐГҐГ°Г±ГЇГҐГЄ
 		{
 		    SpecInfo[playerid][SpecID]=targetid;
 		    SetPlayerVirtualWorld(playerid,GetPlayerVirtualWorld(targetid));
@@ -751,7 +753,7 @@ stock Spec(playerid,targetid,bit)
 		    format(string, sizeof(string), "~n~~n~~n~~n~~n~~n~~n~~y~%s(ID:%d)",oGetPlayerName(targetid),targetid);
    			GameTextForPlayer(playerid, string, 4000, 3);
 	    }
-	    case 2://вечиклспек
+	    case 2://ГўГҐГ·ГЁГЄГ«Г±ГЇГҐГЄ
 	    {
 	        SpecInfo[playerid][InSpec]=1;
 	        TogglePlayerSpectating(playerid,1);
@@ -761,13 +763,13 @@ stock Spec(playerid,targetid,bit)
 	        format(string,sizeof(string),"~n~~n~~n~~n~~n~~n~~n~~y~%s(%d)ID:%d",CarName[model-400],model,targetid);
             GameTextForPlayer(playerid, string, 4000, 3);
 		}
-	    case 3://спекофф
+	    case 3://Г±ГЇГҐГЄГ®ГґГґ
 	    {
 	        SpecInfo[playerid][InSpec]=0;
 	    	TogglePlayerSpectating(playerid,0);
 	    	TextDrawHideForPlayer(playerid,ChangeText);
 	    }
-	    case 4://спекапдейт
+	    case 4://Г±ГЇГҐГЄГ ГЇГ¤ГҐГ©ГІ
 		{
  			foreach (Player, i)
 			{
@@ -780,7 +782,7 @@ stock Spec(playerid,targetid,bit)
 				}
 			}
 		}
-		case 5://переключение вперед
+		case 5://ГЇГҐГ°ГҐГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГўГЇГҐГ°ГҐГ¤
 		{
 		    for(new i=SpecInfo[playerid][SpecID]; i<MAX_PLAYERS; i++)
 			{
@@ -802,7 +804,7 @@ stock Spec(playerid,targetid,bit)
 		    SpecInfo[playerid][SpecID]=0;
 		    //Spec(playerid,0,5);
 		}
-		case 6://переключение назад
+		case 6://ГЇГҐГ°ГҐГЄГ«ГѕГ·ГҐГ­ГЁГҐ Г­Г Г§Г Г¤
 		{
 		    for(new i=SpecInfo[playerid][SpecID]; i>-1; i--)
 			{
@@ -824,7 +826,7 @@ stock Spec(playerid,targetid,bit)
 		    SpecInfo[playerid][SpecID]=MAX_PLAYERS;
 		    //Spec(playerid,0,6);
 		}
-		case 7://выход спекаемого
+		case 7://ГўГ»ГµГ®Г¤ Г±ГЇГҐГЄГ ГҐГ¬Г®ГЈГ®
 		{
 			foreach (Player, i)
 			{
@@ -878,7 +880,7 @@ stock ShowAllPlayersInRange(playerid,Float:range)
 {
 	new Float:dis2;
 	new str[128];
-	format(str,sizeof(str),"Игроки в радиусе %f от вас",range);
+	format(str,sizeof(str),"Г€ГЈГ°Г®ГЄГЁ Гў Г°Г Г¤ГЁГіГ±ГҐ %f Г®ГІ ГўГ Г±",range);
 	SendClientMessage(playerid,COLOR_YELLOW,str);
 	new Float:pos[3];
 	GetPlayerPos(playerid,pos[0],pos[1],pos[2]);
@@ -909,9 +911,9 @@ public OnPlayerEnterVehicle(playerid, vehicleid, ispassenger)
 			if(PlayerInfo[playerid][pCarID]==vehicleid)
 			{
 				if(IsATruck(vehicleid))
-				    SendClientMessage(playerid,COLOR_YELLOW,"Подцепите прицеп, для возможности получить заказ.");
+				    SendClientMessage(playerid,COLOR_YELLOW,"ГЏГ®Г¤Г¶ГҐГЇГЁГІГҐ ГЇГ°ГЁГ¶ГҐГЇ, Г¤Г«Гї ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГЁ ГЇГ®Г«ГіГ·ГЁГІГј Г§Г ГЄГ Г§.");
 				else
-				    SendClientMessage(playerid,COLOR_YELLOW,"Используйте /delivery для получения заказа.");
+				    SendClientMessage(playerid,COLOR_YELLOW,"Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ /delivery Г¤Г«Гї ГЇГ®Г«ГіГ·ГҐГ­ГЁГї Г§Г ГЄГ Г§Г .");
 			}
 		}
 	}
@@ -923,30 +925,30 @@ COMMAND:spec(playerid,params[])
 {
 	new specid;
 	if(sscanf(params, "u", specid))
-		return SendClientMessage(playerid, COLOR_RED, " ИСПОЛЬЗУЙТЕ: /spec [id_игрока/ЧастьИмени]");
+		return SendClientMessage(playerid, COLOR_RED, " Г€Г‘ГЏГЋГ‹ГњГ‡Г“Г‰Г’Г…: /spec [id_ГЁГЈГ°Г®ГЄГ /Г—Г Г±ГІГјГ€Г¬ГҐГ­ГЁ]");
 	if(specid == playerid)
-		return SendClientMessage(playerid, COLOR_RED, " Нельзя наблюдать за самим собой!");
+		return SendClientMessage(playerid, COLOR_RED, " ГЌГҐГ«ГјГ§Гї Г­Г ГЎГ«ГѕГ¤Г ГІГј Г§Г  Г±Г Г¬ГЁГ¬ Г±Г®ГЎГ®Г©!");
 
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
 		if(IsPlayerConnected(specid))
 		{
 			if(GetPlayerState(specid) == PLAYER_STATE_SPECTATING)
-				return SendClientMessage(playerid, COLOR_RED, " Этот игрок наблюдает за кем то!");
+				return SendClientMessage(playerid, COLOR_RED, " ГќГІГ®ГІ ГЁГЈГ°Г®ГЄ Г­Г ГЎГ«ГѕГ¤Г ГҐГІ Г§Г  ГЄГҐГ¬ ГІГ®!");
 			if(GetPlayerState(specid) != 1 && GetPlayerState(specid) != 2 && GetPlayerState(specid) != 3)
-				return SendClientMessage(playerid, COLOR_RED, " Игрок не вступил в игру!");
+				return SendClientMessage(playerid, COLOR_RED, " Г€ГЈГ°Г®ГЄ Г­ГҐ ГўГ±ГІГіГЇГЁГ« Гў ГЁГЈГ°Гі!");
 			Spec(playerid,specid,0);
 		}
 	}
 	else
-		SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+		SendClientMessage(playerid, COLOR_GRAD1, "   Г“ Г‚Г Г± Г­ГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® ГЇГ°Г Гў Г¤Г«Гї ГІГ®ГЈГ®, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГЅГІГі ГЄГ®Г¬Г Г­Г¤Гі!");
 	return 1;
 }
 COMMAND:specveh(playerid,params[])
 {
     new specid;
 	if(sscanf(params, "i", specid))
-		return SendClientMessage(playerid, COLOR_RED, " ИСПОЛЬЗУЙТЕ: /specveh [id_авто]");
+		return SendClientMessage(playerid, COLOR_RED, " Г€Г‘ГЏГЋГ‹ГњГ‡Г“Г‰Г’Г…: /specveh [id_Г ГўГІГ®]");
 	if (PlayerInfo[playerid][pAdmin] >= 1)
 	{
 		Spec(playerid,specid,2);
@@ -964,7 +966,7 @@ COMMAND:specoff(playerid,params[])
 	if(PlayerInfo[playerid][pAdmin] >= 1337)
 	{
 		Spec(specid,0,3);
-		format(string, sizeof(string), " Вы выкинули [%d]%s из режима наблюдения!",specid, oGetPlayerName(specid));
+		format(string, sizeof(string), " Г‚Г» ГўГ»ГЄГЁГ­ГіГ«ГЁ [%d]%s ГЁГ§ Г°ГҐГ¦ГЁГ¬Г  Г­Г ГЎГ«ГѕГ¤ГҐГ­ГЁГї!",specid, oGetPlayerName(specid));
 		SendClientMessage(playerid, COLOR_GRAD2, string);
 	}
 	return 1;
@@ -973,12 +975,12 @@ COMMAND:specoff(playerid,params[])
 COMMAND:fixveh(playerid,params[])
 {
     if(PlayerInfo[playerid][pAdmin] < 1)
-	    return SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+	    return SendClientMessage(playerid, COLOR_GRAD1, "   Г“ Г‚Г Г± Г­ГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® ГЇГ°Г Гў Г¤Г«Гї ГІГ®ГЈГ®, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГЅГІГі ГЄГ®Г¬Г Г­Г¤Гі!");
 	if(IsPlayerInAnyVehicle(playerid))
 	{
 	    SetVehicleHealth(GetPlayerVehicleID(playerid), 1000.0);
 	    RepairVehicle(GetPlayerVehicleID(playerid));
-	    SendClientMessage(playerid, COLOR_GREY, "   Машина починена!");
+	    SendClientMessage(playerid, COLOR_GREY, "   ГЊГ ГёГЁГ­Г  ГЇГ®Г·ГЁГ­ГҐГ­Г !");
 	}
 	return 1;
 }
@@ -1014,33 +1016,33 @@ new CreatedCar = 0;
 COMMAND:veh(playerid,params[])
 {
     if (PlayerInfo[playerid][pAdmin] < 1)
-	    return SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+	    return SendClientMessage(playerid, COLOR_GRAD1, "   Г“ Г‚Г Г± Г­ГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® ГЇГ°Г Гў Г¤Г«Гї ГІГ®ГЈГ®, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГЅГІГі ГЄГ®Г¬Г Г­Г¤Гі!");
 	new car,color1,color2;
 	if (sscanf(params, "iii", car,color1,color2))
 	{
-		SendClientMessage(playerid, COLOR_GRAD2, "{ffcc99}Используйте: {d5d5d5}/veh [id машины] [цвет1] [цвет2]");
+		SendClientMessage(playerid, COLOR_GRAD2, "{ffcc99}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {d5d5d5}/veh [id Г¬Г ГёГЁГ­Г»] [Г¶ГўГҐГІ1] [Г¶ГўГҐГІ2]");
 		return ShowCarsList(playerid,0);
 	}
 	if(car < 400 || car > 611)
-		return SendClientMessage(playerid, COLOR_GREY, "   Номер транспортного средства не должен быть ниже 400 и выше 611!");
+		return SendClientMessage(playerid, COLOR_GREY, "   ГЌГ®Г¬ГҐГ° ГІГ°Г Г­Г±ГЇГ®Г°ГІГ­Г®ГЈГ® Г±Г°ГҐГ¤Г±ГІГўГ  Г­ГҐ Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Г­ГЁГ¦ГҐ 400 ГЁ ГўГ»ГёГҐ 611!");
 	if(color1 < -1 || color1 > 126)
-		return SendClientMessage(playerid, COLOR_GREY, "   Номер цвета должен быть не ниже 0 и не выше 126!");
+		return SendClientMessage(playerid, COLOR_GREY, "   ГЌГ®Г¬ГҐГ° Г¶ГўГҐГІГ  Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Г­ГҐ Г­ГЁГ¦ГҐ 0 ГЁ Г­ГҐ ГўГ»ГёГҐ 126!");
 	if(color2 < -1 || color2 > 126)
-		return SendClientMessage(playerid, COLOR_GREY, "   Номер цвета должен быть не ниже 0 и не выше 126!");
+		return SendClientMessage(playerid, COLOR_GREY, "   ГЌГ®Г¬ГҐГ° Г¶ГўГҐГІГ  Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј Г­ГҐ Г­ГЁГ¦ГҐ 0 ГЁ Г­ГҐ ГўГ»ГёГҐ 126!");
 	new Float:X,Float:Y,Float:Z;
 	GetPlayerPos(playerid, X,Y,Z);
 	new carid = CreateVehicle(car, X,Y,Z, 0.0, color1, color2, 60000);
 	CreatedCars[CreatedCar] = carid;
 	CreatedCar ++;
 	new string[128];
-	format(string, sizeof(string), "   Транспортное средство %d(%s[%d]) создано.", carid,CarNames[car-400],car);
+	format(string, sizeof(string), "   Г’Г°Г Г­Г±ГЇГ®Г°ГІГ­Г®ГҐ Г±Г°ГҐГ¤Г±ГІГўГ® %d(%s[%d]) Г±Г®Г§Г¤Г Г­Г®.", carid,CarNames[car-400],car);
 	SendClientMessage(playerid, COLOR_GREY, string);
 	return 1;
 }
 COMMAND:destroycars(playerid,params[])
 {
     if(PlayerInfo[playerid][pAdmin] < 1)
-	    return SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+	    return SendClientMessage(playerid, COLOR_GRAD1, "   Г“ Г‚Г Г± Г­ГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® ГЇГ°Г Гў Г¤Г«Гї ГІГ®ГЈГ®, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГЅГІГі ГЄГ®Г¬Г Г­Г¤Гі!");
 //=================================================
 	new Jpbit=0;
 	new Jpbit2=0;
@@ -1059,14 +1061,14 @@ COMMAND:destroycars(playerid,params[])
 				}
 			}
 			if(Jpbit == 0)DestroyVehicle(CreatedCars[i]);
-			else Jpbit2=1;  //=1 если когото выкинули
+			else Jpbit2=1;  //=1 ГҐГ±Г«ГЁ ГЄГ®ГЈГ®ГІГ® ГўГ»ГЄГЁГ­ГіГ«ГЁ
 			//=========================
 		}
 	}
 	if (Jpbit2 == 0)
-		SendClientMessage(playerid, COLOR_GREY, "   Все созданные транспортные средства уничтожены!");
+		SendClientMessage(playerid, COLOR_GREY, "   Г‚Г±ГҐ Г±Г®Г§Г¤Г Г­Г­Г»ГҐ ГІГ°Г Г­Г±ГЇГ®Г°ГІГ­Г»ГҐ Г±Г°ГҐГ¤Г±ГІГўГ  ГіГ­ГЁГ·ГІГ®Г¦ГҐГ­Г»!");
 	else
-		SendClientMessage(playerid, COLOR_GREY, "   Злоумышленники наказаны!");
+		SendClientMessage(playerid, COLOR_GREY, "   Г‡Г«Г®ГіГ¬Г»ГёГ«ГҐГ­Г­ГЁГЄГЁ Г­Г ГЄГ Г§Г Г­Г»!");
 	return 1;
 }
 
@@ -1092,7 +1094,7 @@ stock VehDialogResponse(playerid,response,listitem,inputtext[])
 	new carid = CreateVehicle(car, X,Y,Z, 0.0, -1, -1, 60000);
 	CreatedCars[CreatedCar] = carid;
 	CreatedCar ++;
-	format(string, sizeof(string), "Транспортное средство %d(%s[%d]) создано.", carid,CarNames[car-400],car);
+	format(string, sizeof(string), "Г’Г°Г Г­Г±ГЇГ®Г°ГІГ­Г®ГҐ Г±Г°ГҐГ¤Г±ГІГўГ® %d(%s[%d]) Г±Г®Г§Г¤Г Г­Г®.", carid,CarNames[car-400],car);
 	SendClientMessage(playerid, COLOR_GREY, string);
 	return 1;
 }
@@ -1100,13 +1102,13 @@ stock VehDialogResponse(playerid,response,listitem,inputtext[])
 COMMAND:weatherall(playerid,params[])
 {
     if(PlayerInfo[playerid][pAdmin] < 1)
-	    return SendClientMessage(playerid, COLOR_GRAD1, "   У Вас недостаточно прав для того, чтобы использовать эту команду!");
+	    return SendClientMessage(playerid, COLOR_GRAD1, "   Г“ Г‚Г Г± Г­ГҐГ¤Г®Г±ГІГ ГІГ®Г·Г­Г® ГЇГ°Г Гў Г¤Г«Гї ГІГ®ГЈГ®, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГЅГІГі ГЄГ®Г¬Г Г­Г¤Гі!");
 	new weather;
 	if(sscanf(params, "i", weather))
-	    return SendClientMessage(playerid, COLOR_WHITE, "{ffcc99}Используйте: {d5d5d5}/weatherall [id погоды]");
+	    return SendClientMessage(playerid, COLOR_WHITE, "{ffcc99}Г€Г±ГЇГ®Г«ГјГ§ГіГ©ГІГҐ: {d5d5d5}/weatherall [id ГЇГ®ГЈГ®Г¤Г»]");
 	if(weather < 0||weather > 45)
-		return SendClientMessage(playerid, COLOR_GREY, "   ID погоды не может быть менее 0 и более 45!");
+		return SendClientMessage(playerid, COLOR_GREY, "   ID ГЇГ®ГЈГ®Г¤Г» Г­ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј Г¬ГҐГ­ГҐГҐ 0 ГЁ ГЎГ®Г«ГҐГҐ 45!");
 	SetWeather(weather);
-	SendClientMessage(playerid, COLOR_GREY, "   Погода установлена для всех!");
+	SendClientMessage(playerid, COLOR_GREY, "   ГЏГ®ГЈГ®Г¤Г  ГіГ±ГІГ Г­Г®ГўГ«ГҐГ­Г  Г¤Г«Гї ГўГ±ГҐГµ!");
 	return 1;
 }
